@@ -10,14 +10,20 @@ namespace Api.Application.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private IUserService _service;
+        public UsersController(IUserService service)
+        {
+            _service = service;
+        }
+
         [HttpGet]
-        public async Task<ActionResult> GetAll([FromServices] IUserService service)
+        public async Task<ActionResult> GetAll()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState); //Erro 400
             try
             {
-                return Ok(await service.GetAll()); //Vai a camada de Serviço e faz a busca
+                return Ok(await _service.GetAll()); //Vai a camada de Serviço e faz a busca
             }
             catch (ArgumentException e)
             {
