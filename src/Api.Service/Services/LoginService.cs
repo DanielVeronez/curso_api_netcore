@@ -66,7 +66,11 @@ namespace Api.Service.Services
                 }
             }
             else
-                return null;
+                return new
+                {
+                    autenticated = false,
+                    message = "Falha ao autenticar"
+                };
         }
 
         private string CreateToken(ClaimsIdentity identity, DateTime createData, DateTime expirationDate, JwtSecurityTokenHandler handler)
