@@ -10,13 +10,13 @@ namespace Api.Data.Context
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
-
+            Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<UserEntity> (new UserMap().Configure);
+            modelBuilder.Entity<UserEntity>(new UserMap().Configure);
         }
     }
 }
