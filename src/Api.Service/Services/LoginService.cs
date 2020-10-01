@@ -90,7 +90,7 @@ namespace Api.Service.Services
             return token;
         }
 
-        private object SuccessObject(DateTime createDate, DateTime expirationDate, string token, LoginDto user)
+        private object SuccessObject(DateTime createDate, DateTime expirationDate, string token, UserEntity user)
         {
             return new
             {
@@ -99,6 +99,7 @@ namespace Api.Service.Services
                 expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss"),
                 acessToken = token,
                 userName = user.Email,
+                name = user.Name,
                 message = "Usuário logado com sucesso"
             };
         }
