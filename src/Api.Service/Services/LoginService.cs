@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 using System.Threading.Tasks;
 using Api.Domain.Dtos;
 using Api.Domain.Entities;
@@ -34,9 +35,16 @@ namespace Api.Service.Services
         public async Task<object> FindByLogin(LoginDto user)
         {
             var baseUser = new UserEntity();
+            string pwd = String.Empty;
+
             if (user != null && !string.IsNullOrWhiteSpace(user.Email))
             {
                 baseUser = await _repository.FindByLogin(user.Email);
+
+                if (baseUser != null)
+                    pwd = CreateMD5(user.Password);
+
+                //if (baseUser == null || pwd != baseUser.Password)
                 if (baseUser == null)
                 {
                     return new
@@ -101,6 +109,22 @@ namespace Api.Service.Services
                 userName = user.Email,
                 message = "Usuário logado com sucesso"
             };
+        }
+
+        private static string CreateMD5(string input)
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
     }
 }

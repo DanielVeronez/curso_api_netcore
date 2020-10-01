@@ -9,5 +9,8 @@ namespace Api.Domain.Dtos
         [StringLength(100, ErrorMessage = "O e-mail não pode ser maior que {1} caracteres")]
         public string Email { get; set; }
 
+        //[Required(ErrorMessage = ("A senha é um campo obrigatório"))]
+        public string Password { get; set; }
+
     }
 }
