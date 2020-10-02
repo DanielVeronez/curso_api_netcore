@@ -20,5 +20,10 @@ namespace Api.Data.Implamentations
         {
             return await _dataset.FirstOrDefaultAsync(u => u.Email.Equals(email));
         }
+
+        public async Task<UserEntity> FindByEmail(string email)
+        {
+            return await _dataset.SingleOrDefaultAsync(u => u.Email.Equals(email));
+        }
     }
 }
