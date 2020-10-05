@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.CrossCutting.DependecyInjection;
+using Api.CrossCutting.Mappings;
 using Api.Domain.Security;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +36,15 @@ namespace application
             ConfigureService.ConfigureDependeciesService(services);
             ConfigureRepository.ConfiguteDependenciesRepository(services);
 
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new DtoToModelProfile());
+                cfg.AddProfile(new EntityToDtoProfile());
+                cfg.AddProfile(new ModelToEntityProfile());
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
 
             //Temporario???
             var signingConfigurations = new SigningConfigurations();
@@ -45,6 +56,7 @@ namespace application
                 .Configure(tokenConfigurations);
             services.AddSingleton(tokenConfigurations);
             //Fim temporario???
+
 
             //Configuração do ASP.Core para ter autenticação
             services.AddAuthentication(authOptions =>

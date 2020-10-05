@@ -12,7 +12,5 @@ namespace Api.Domain.Dtos.User
         [EmailAddress(ErrorMessage = ("O e-mail digitado não é válido"))]
         [StringLength(100, ErrorMessage = ("O campo e-mail deve conter no máximo {1} caracteres"))]
         public string Email { get; set; }
-
-        public string Password { get; set; }
     }
 }
