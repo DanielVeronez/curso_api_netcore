@@ -5,10 +5,13 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Domain.Dtos;
+using Api.Domain.Dtos.User;
 using Api.Domain.Entities;
 using Api.Domain.Interfaces.Services.User;
+using Api.Domain.Models;
 using Api.Domain.Repository;
 using Api.Domain.Security;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -20,16 +23,19 @@ namespace Api.Service.Services
         private SigningConfigurations _signingConfigurations;
         private TokenConfigurations _tokenConfigurations;
         private IConfiguration _configuration { get; }
+        private readonly IMapper _mapper;
 
         public LoginService(IUserRepository repository,
                             SigningConfigurations signingConfigurations,
                             TokenConfigurations tokenConfigurations,
-                            IConfiguration configuration)
+                            IConfiguration configuration,
+                            IMapper mapper)
         {
             _repository = repository;
             _signingConfigurations = signingConfigurations;
             _tokenConfigurations = tokenConfigurations;
             _configuration = configuration;
+            _mapper = mapper;
         }
 
         public async Task<object> FindByLogin(LoginDto user)
@@ -78,6 +84,52 @@ namespace Api.Service.Services
                 {
                     autenticated = false,
                     message = "Falha ao autenticar"
+                };
+        }
+
+        public async Task<object> UpdatePassword(UserDtoUpdatePassword user)
+        {
+            var baseUser = new UserEntity();
+            string newPwd = String.Empty;
+            string oldPwd = String.Empty;
+
+            if (user != null)
+            {
+                baseUser = await _repository.FindById(user.Id);
+
+                if (baseUser != null)
+                {
+                    newPwd = CreateMD5(user.NewPassword);
+                    oldPwd = CreateMD5(user.OldPassword);
+                }
+
+                if (!oldPwd.Equals(baseUser.Password))
+                {
+                    return new
+                    {
+                        message = "A senha antiga não confere"
+                    };
+                }
+
+                if (newPwd.Equals(baseUser.Password))
+                {
+                    return new
+                    {
+                        message = "A senha nova é igual a atual"
+                    };
+                }
+
+                var model = _mapper.Map<UserModel>(user);
+                var entity = _mapper.Map<UserEntity>(model);
+                var result = await _repository.UpdateAsync(entity);
+
+                return new { message = "Atualizado com sucesso!" };
+
+            }
+            else
+                return new
+                {
+                    message = "Falha ao atualizar senha"
                 };
         }
 

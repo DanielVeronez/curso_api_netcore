@@ -120,5 +120,30 @@ namespace Api.Application.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.Message); //Erro 500
             }
         }
+
+        [HttpPut]//Atualizar Password
+        [Authorize("Bearer")]
+        public async Task<ActionResult> UpdatePassword([FromBody] UserDtoUpdatePassword user, [FromServices] ILoginService service)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState); //Erro 400
+
+            try
+            {
+                var result = await service.UpdatePassword(user);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (ArgumentException e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message); //Erro 500
+            }
+        }
     }
 }

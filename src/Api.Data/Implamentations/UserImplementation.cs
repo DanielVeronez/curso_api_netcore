@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Api.Data.Context;
 using Api.Data.Repository;
@@ -24,6 +25,11 @@ namespace Api.Data.Implamentations
         public async Task<UserEntity> FindByEmail(string email)
         {
             return await _dataset.SingleOrDefaultAsync(u => u.Email.Equals(email));
+        }
+
+        public async Task<UserEntity> FindById(Guid Id)
+        {
+            return await _dataset.SingleOrDefaultAsync(u => u.Id.Equals(Id));
         }
     }
 }
