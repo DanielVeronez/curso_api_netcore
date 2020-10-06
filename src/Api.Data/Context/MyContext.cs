@@ -26,7 +26,7 @@ namespace Api.Data.Context
                     Email = "testeadm@teste.com",
                     CreatAt = DateTime.MinValue,
                     UpdateAt = DateTime.MinValue,
-                    Password = ""
+                    Password = "698dc19d489c4e4db73e28a713eab07b"
                 }
             );
         }
