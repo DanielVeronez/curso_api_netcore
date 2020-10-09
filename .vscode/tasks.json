@@ -44,7 +44,6 @@
             "type": "process",
             "args": [
                 "test",
-                "run",
                 "${workspaceFolder}/src/Api.Data.Test/Api.Data.Test.csproj"
             ]
         },
@@ -54,7 +53,6 @@
             "type": "process",
             "args": [
                 "test",
-                "run",
                 "${workspaceFolder}/src/Api.Service.Test/Api.Service.Test.csproj"
             ]
         }
