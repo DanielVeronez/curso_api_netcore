@@ -8,7 +8,7 @@ namespace Api.Domain.Entities
         [Key]
         public Guid Id { get; set; }
         private DateTime? _creatAt;
-        public DateTime? CreatAt
+        public DateTime? CreateAt
         {
             get { return _creatAt; }
             set { _creatAt = (value == null ? DateTime.UtcNow : value); }
