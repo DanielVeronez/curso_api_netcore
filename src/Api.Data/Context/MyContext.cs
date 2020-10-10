@@ -20,11 +20,12 @@ namespace Api.Data.Context
             modelBuilder.Entity<UserEntity>(new UserMap().Configure);
 
             modelBuilder.Entity<UserEntity>().HasData(
-                new UserEntity{
+                new UserEntity
+                {
                     Id = Guid.NewGuid(),
                     Name = "Administrador",
                     Email = "testeadm@teste.com",
-                    CreatAt = DateTime.MinValue,
+                    CreateAt = DateTime.MinValue,
                     UpdateAt = DateTime.MinValue,
                     Password = "698dc19d489c4e4db73e28a713eab07b"
                 }

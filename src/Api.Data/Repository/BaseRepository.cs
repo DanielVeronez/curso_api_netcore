@@ -47,7 +47,7 @@ namespace Api.Data.Repository
                     item.Id = Guid.NewGuid();
                 }
 
-                item.CreatAt = DateTime.UtcNow;
+                item.CreateAt = DateTime.UtcNow;
                 _dataset.Add(item);
 
                 await _context.SaveChangesAsync();
@@ -100,7 +100,7 @@ namespace Api.Data.Repository
                     return null;
 
                 item.UpdateAt = DateTime.UtcNow;
-                item.CreatAt = result.CreatAt;
+                item.CreateAt = result.CreateAt;
 
                 _context.Entry(result).CurrentValues.SetValues(item);
 
