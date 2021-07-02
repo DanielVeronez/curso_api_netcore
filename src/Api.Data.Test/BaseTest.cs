@@ -10,7 +10,6 @@ namespace Api.Data.Test
     {
         public BaseTest()
         {
-
         }
     }
 
